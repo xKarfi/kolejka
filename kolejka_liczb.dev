@@ -1,51 +1,62 @@
-[Project]
-FileName=kolejka_liczb.dev
-Name=kolejka_liczb
-Type=1
-Ver=2
-ObjFiles=
-Includes=
-Libs=
-PrivateResource=
-ResourceIncludes=
-MakeIncludes=
-Compiler=
-CppCompiler=
-Linker=
-IsCpp=1
-Icon=
-ExeOutput=
-ObjectOutput=
-LogOutput=
-LogOutputEnabled=0
-OverrideOutput=0
-OverrideOutputName=
-HostApplication=
-UseCustomMakefile=0
-CustomMakefile=
-CommandLine=
-Folders=
-IncludeVersionInfo=0
-SupportXPThemes=0
-CompilerSet=0
-CompilerSettings=0000000000000000000000000
+#include <iostream>
+#include <queue>
+#include <fstream>
+using namespace std;
 
-[VersionInfo]
-Major=1
-Minor=0
-Release=0
-Build=0
-LanguageID=1033
-CharsetID=1252
-CompanyName=
-FileVersion=
-FileDescription=Developed using the Dev-C++ IDE
-InternalName=
-LegalCopyright=
-LegalTrademarks=
-OriginalFilename=
-ProductName=
-ProductVersion=
-AutoIncBuildNr=0
-SyncProduct=1
+class kolejka
+{
+	ifstream p1;
+	ofstream p2;
+	std::queue <int> kolej;
+	public:
+		
+void otworz()
+{
+	p1.open("p1.txt");
+	p2.open("p2.json");
+}
 
+void wczytaj()
+{
+	int numery;
+	while(!p1.eof())
+	{
+		p1>>numery;
+		kolej.push(numery);
+	}
+}
+
+void zapisz()
+{
+	bool pierwszy = true;
+	while(!kolej.empty())
+	{
+		if(pierwszy)
+		{
+			p2<<"{\"liczba\":"<<kolej.front()<<"}",
+			kolej.pop();
+			pierwszy = false;
+		}
+		else 
+		{
+			p2<<"{\"liczba\":"<<kolej.front()<<"}",
+			kolej.pop();
+		}
+	}
+}
+void zamknij()
+{
+	p1.close();
+	p2.close();
+}
+
+};
+int main(int argc, char** argv) {
+	kolejka k1;
+	k1.otworz();
+	k1.wczytaj();
+	k1.zapisz();
+	k1.zamknij();
+
+	return 0;
+}
